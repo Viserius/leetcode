@@ -1,3 +1,5 @@
+// Runtime 7 ms beats 58.58%
+// Memory 42.6 MB beats 91.75%
 class Solution {
     public int lengthOfLongestSubstring(String s) {
         int maxLength = 0;
