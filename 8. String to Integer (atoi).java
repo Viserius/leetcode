@@ -1,3 +1,5 @@
+// Runtime 1ms beats 100%
+// Memory 41.1 MB beats 94.55%
 class Solution {
     public int myAtoi(String s) {
         int i = 0, c, result = 0, sign = 1;
