@@ -1,3 +1,5 @@
+// Runtime 8ms beats 56.94%
+// Memory 43.3MB beats 98.7%
 class Solution {
     public int[] twoSum(int[] nums, int target) {
         // Store to retrieve values in O(1)
