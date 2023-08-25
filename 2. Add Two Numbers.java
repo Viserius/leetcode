@@ -1,3 +1,5 @@
+// Runtime 2ms beats 60.29%
+// Memory 42.9MB beats 88.97%
 /**
  * Definition for singly-linked list.
  * public class ListNode {
