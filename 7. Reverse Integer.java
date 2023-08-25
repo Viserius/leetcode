@@ -1,3 +1,5 @@
+// Runtime 1 ms beats 98.72%
+// Memory 39.8 MB beats 51.12%
 class Solution {
     public int reverse(int x) {
         int result = 0;
