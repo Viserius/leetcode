@@ -1,3 +1,5 @@
+// Runtime 5 ms beats 70.88%
+// Memory 44.3 MB beats 56.31%
 class Solution {
     public String convert(String s, int numRows) {
         // Initialize rows
