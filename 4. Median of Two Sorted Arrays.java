@@ -1,3 +1,5 @@
+// Runtime 2 ms beats 84.39%
+// Memory 43.7 MB beats 99.84%
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
         // Search range of 2nd array
