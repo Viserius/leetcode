@@ -1,3 +1,5 @@
+// Runtime 20 ms beats 73.22%
+// Memory 44.1 MB beats 39.71%
 class Solution {
     public String longestPalindrome(String s) {
         String longest = "";
