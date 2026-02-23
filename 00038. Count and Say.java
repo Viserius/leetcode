@@ -1,3 +1,5 @@
+// Runtime 2ms beats 99.56%
+// Memory 43MB beats 54.88%
 class Solution {
     /**
      * Geeft het {@code n}-de element terug van de "count-and-say"-reeks.
