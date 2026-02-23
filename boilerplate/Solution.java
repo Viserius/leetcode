@@ -27,33 +27,111 @@ class Solution {
         var s = new Solution();
 
         s.suite(() -> {
-            // --- Example tests (replace with your own) --------------------------
-            // Primitive types example:
-//            s.test("n=1", 1, "1", s::countAndSay);
-//            s.test("n=2", 2, "11", s::countAndSay);
-//            s.test("n=3", 3, "21", s::countAndSay);
-//            s.test("n=4", 4, "1211", s::countAndSay);
 
-            // Array-returning example:
-//             s.test("twoSum", arr(2,7,11,15), 9, arr(0,1), (a, t) -> s.twoSum(a, t));
+            /*
+             * Argumenten aan s.test: s.test(label, args..., expected, methodRef);
+             */
 
-            // Supplier variant (fresh input each test; useful when input is mutated):
-//             s.test("rotate", () -> parseIntMatrix("[[1,2],[3,4]]"), parseIntMatrix("[[3,1],[4,2]]"), m -> { s.rotate(m); return m; });
+            // ---------------------------------------------------------
+            // 1) Primitive / String return
+            // ---------------------------------------------------------
+            // s.test("n=1", 1, "1", s::countAndSay);
+            // s.test("n=4", 4, "1211", s::countAndSay);
 
-            // In-place void example:
-//             s.testInPlace("rotate in-place",
-//                     () -> parseIntMatrix("[[1,2],[3,4]]"),
-//                     parseIntMatrix("[[3,1],[4,2]]"),
-//                     m -> s.rotate(m));
+            // ---------------------------------------------------------
+            // 2) Array return (int[])
+            // ---------------------------------------------------------
+            // s.test("twoSum ex1",
+            //         parseIntArray("[2,7,11,15]"),
+            //         9,
+            //         parseIntArray("[0,1]"),
+            //         (a, t) -> s.twoSum(a, t));
 
-            // Linked list example:
-//             s.test("reverseList",
-//                     listNode(1,2,3),
-//                     listNode(3,2,1),
-//                     s::reverseList);
+            // ---------------------------------------------------------
+            // 3) In-place / void method (input wordt gemuteerd)
+            // ---------------------------------------------------------
+            // s.testInPlace("rotate ex1",
+            //         () -> parseIntMatrix("[[1,2],[3,4]]"),
+            //         parseIntMatrix("[[3,1],[4,2]]"),
+            //         m -> s.rotate(m));
 
-            // Exception example:
-//             s.testThrows("invalid input throws", IllegalArgumentException.class, () -> s.someMethod(-1));
+            // ---------------------------------------------------------
+            // 4) List return
+            // ---------------------------------------------------------
+            // s.test("someListMethod ex1",
+            //         list(1,2,3),
+            //         list(2,3,4),
+            //         in -> s.someListMethod(in));
+
+            // ---------------------------------------------------------
+            // 5) Matrix return (int[][])
+            // ---------------------------------------------------------
+            // s.test("someMatrixMethod ex1",
+            //         parseIntMatrix("[[1,2],[3,4]]"),
+            //         parseIntMatrix("[[2,4],[6,8]]"),
+            //         m -> s.someMatrixMethod(m));
+
+            // ---------------------------------------------------------
+            // 6) Combination Sum (order doesn't matter) ✅
+            // ---------------------------------------------------------
+            // s.testUnorderedNestedIntLists(
+            //         "combinationSum ex1",
+            //         parseIntArray("[2,3,6,7]"),
+            //         7,
+            //         parseIntListList("[[2,2,3],[7]]"),
+            //         s::combinationSum
+            // );
+            //
+            // s.testUnorderedNestedIntLists(
+            //         "combinationSum ex2",
+            //         parseIntArray("[2,3,5]"),
+            //         8,
+            //         parseIntListList("[[2,2,2,2],[2,3,3],[3,5]]"),
+            //         s::combinationSum
+            // );
+            //
+            // s.testUnorderedNestedIntLists(
+            //         "combinationSum ex3",
+            //         parseIntArray("[2]"),
+            //         1,
+            //         parseIntListList("[]"),
+            //         s::combinationSum
+            // );
+
+            // ---------------------------------------------------------
+            // 7) Linked list return
+            // ---------------------------------------------------------
+            // s.test("reverseList ex1",
+            //         listNode(1,2,3),
+            //         listNode(3,2,1),
+            //         s::reverseList);
+
+            // ---------------------------------------------------------
+            // 8) Binary tree return
+            // ---------------------------------------------------------
+            // s.test("invertTree ex1",
+            //         tree(4,2,7,1,3,6,9),
+            //         tree(4,7,2,9,6,3,1),
+            //         s::invertTree);
+
+            // ---------------------------------------------------------
+            // 9) Exception test
+            // ---------------------------------------------------------
+            // s.testThrows("invalid input throws",
+            //         IllegalArgumentException.class,
+            //         () -> s.someMethod(-1));
+
+            // ---------------------------------------------------------
+            // 10) Fresh-input variant (als input muteert maar je wil meerdere tests)
+            // ---------------------------------------------------------
+            // s.test("fresh input ex1",
+            //         () -> parseIntArray("[1,2,3]"),
+            //         6,
+            //         a -> {
+            //             int sum = 0;
+            //             for (int v : a) sum += v;
+            //             return sum;
+            //         });
         });
     }
 
@@ -147,6 +225,20 @@ class Solution {
         }
     }
 
+    // ---- Special: order-independent nested int lists (perfect for Combination Sum) ----
+
+    public void testUnorderedNestedIntLists(
+            String name,
+            int[] candidates,
+            int target,
+            List<List<Integer>> expected,
+            BiFunction<int[], Integer, List<List<Integer>>> fn
+    ) {
+        runTest(name,
+                normalizeNestedIntLists(expected),
+                () -> normalizeNestedIntLists(fn.apply(candidates, target)));
+    }
+
     private <R> void runTest(String name, R expected, Supplier<R> invoke) {
         STATS.total++;
         long t0 = System.nanoTime();
@@ -228,12 +320,10 @@ class Solution {
         if (a == b) return true;
         if (a == null || b == null) return false;
 
-        // Arrays (including multi-dim via Object[])
         if (a.getClass().isArray() && b.getClass().isArray()) {
             return arrayDeepEquals(a, b);
         }
 
-        // Lists (ordered)
         if (a instanceof List la && b instanceof List lb) {
             if (la.size() != lb.size()) return false;
             for (int i = 0; i < la.size(); i++) {
@@ -242,17 +332,13 @@ class Solution {
             return true;
         }
 
-        // Sets (order independent)
         if (a instanceof Set sa && b instanceof Set sb) {
             if (sa.size() != sb.size()) return false;
-            // Best effort: canonicalize via pretty for deep elements.
-            // (Kan in zeldzame gevallen collisions geven, maar is praktisch voor LeetCode debug.)
             var pa = sa.stream().map(Solution::pretty).sorted().toList();
             var pb = sb.stream().map(Solution::pretty).sorted().toList();
             return pa.equals(pb);
         }
 
-        // Maps (best effort: key equality via equals; meestal prima in LeetCode)
         if (a instanceof Map ma && b instanceof Map mb) {
             if (ma.size() != mb.size()) return false;
             for (Object k : ma.keySet()) {
@@ -262,10 +348,8 @@ class Solution {
             return true;
         }
 
-        // ListNode / TreeNode support (handig; compare structure/values)
         if (a instanceof ListNode la && b instanceof ListNode lb) return deepEquals(toList(la), toList(lb));
-        if (a instanceof TreeNode ta && b instanceof TreeNode tb)
-            return pretty(ta).equals(pretty(tb)); // canonical level-order
+        if (a instanceof TreeNode ta && b instanceof TreeNode tb) return pretty(ta).equals(pretty(tb));
 
         return Objects.equals(a, b);
     }
@@ -280,7 +364,6 @@ class Solution {
         if (a instanceof float[] aa && b instanceof float[] bb) return Arrays.equals(aa, bb);
         if (a instanceof double[] aa && b instanceof double[] bb) return Arrays.equals(aa, bb);
 
-        // Object arrays (incl nested int[][] which is Object[] of int[])
         if (a instanceof Object[] aa && b instanceof Object[] bb) {
             if (aa.length != bb.length) return false;
             for (int i = 0; i < aa.length; i++) {
@@ -343,9 +426,7 @@ class Solution {
                 return "@" + i + " ('" + a.charAt(i) + "' vs '" + b.charAt(i) + "')";
             }
         }
-        if (a.length() != b.length()) {
-            return "length (" + a.length() + " vs " + b.length() + ")";
-        }
+        if (a.length() != b.length()) return "length (" + a.length() + " vs " + b.length() + ")";
         return "(no diff?)";
     }
 
@@ -380,7 +461,40 @@ class Solution {
         System.out.println(sb);
     }
 
-    // ---- Parsers: super handig voor copy/paste van LeetCode samples --------
+    // ======================================================================
+    // ✅ New: normalization for "any order" outputs (Combination Sum etc.)
+    // ======================================================================
+
+    /**
+     * Normaliseert een List<List<Integer>> zodat vergelijking order-onafhankelijk wordt:
+     * - sorteert elke inner list oplopend
+     * - sorteert daarna de outer list lexicografisch (en op lengte als tie-breaker)
+     */
+    public static List<List<Integer>> normalizeNestedIntLists(List<List<Integer>> input) {
+        if (input == null) return null;
+
+        var out = new ArrayList<List<Integer>>(input.size());
+        for (var inner : input) {
+            var copy = new ArrayList<Integer>(inner);
+            copy.sort(Integer::compareTo);
+            out.add(copy);
+        }
+        out.sort(LEX_LIST_INT);
+        return out;
+    }
+
+    private static final Comparator<List<Integer>> LEX_LIST_INT = (a, b) -> {
+        int n = Math.min(a.size(), b.size());
+        for (int i = 0; i < n; i++) {
+            int cmp = Integer.compare(a.get(i), b.get(i));
+            if (cmp != 0) return cmp;
+        }
+        return Integer.compare(a.size(), b.size());
+    };
+
+    // ======================================================================
+    // 🧩 Parsers (copy/paste van LeetCode samples)
+    // ======================================================================
 
     /**
      * Parse "[1,2,3]" -> int[]
@@ -389,16 +503,19 @@ class Solution {
         s = s.trim();
         if (s.equals("[]")) return new int[0];
         if (!s.startsWith("[") || !s.endsWith("]")) throw new IllegalArgumentException("Not an array: " + s);
+
         var nums = new ArrayList<Integer>();
         int i = 1;
         while (i < s.length() - 1) {
             while (i < s.length() && (s.charAt(i) == ' ' || s.charAt(i) == ',')) i++;
             if (i >= s.length() - 1) break;
+
             int sign = 1;
             if (s.charAt(i) == '-') {
                 sign = -1;
                 i++;
             }
+
             int val = 0;
             boolean any = false;
             while (i < s.length() - 1 && Character.isDigit(s.charAt(i))) {
@@ -409,6 +526,7 @@ class Solution {
             if (!any) throw new IllegalArgumentException("Expected number in: " + s);
             nums.add(sign * val);
         }
+
         int[] out = new int[nums.size()];
         for (int k = 0; k < nums.size(); k++) out[k] = nums.get(k);
         return out;
@@ -422,25 +540,57 @@ class Solution {
         if (s.equals("[]")) return new int[0][0];
         if (!s.startsWith("[") || !s.endsWith("]")) throw new IllegalArgumentException("Not a matrix: " + s);
 
-        var rows = new ArrayList<int[]>();
-        int i = 0;
-        while (i < s.length()) {
-            int open = s.indexOf('[', i);
-            if (open < 0) break;
-            int close = findMatchingBracket(s, open);
-            if (close < 0) throw new IllegalArgumentException("Unbalanced brackets: " + s);
+        var inner = extractTopLevelInnerArrays(s);
+        var rows = new ArrayList<int[]>(inner.size());
+        for (String row : inner) rows.add(parseIntArray(row));
+        return rows.toArray(int[][]::new);
+    }
 
-            String row = s.substring(open, close + 1);
-            // Skip the outermost matrix bracket: the first '[' at index 0 belongs to the matrix itself
-            if (open == 0) {
-                i = open + 1;
-                continue;
+    /**
+     * Parse "[[2,2,3],[7]]" -> List<List<Integer>>
+     * (exact wat je nodig hebt voor Combination Sum expected output)
+     */
+    public static List<List<Integer>> parseIntListList(String s) {
+        s = s.trim();
+        if (s.equals("[]")) return new ArrayList<>();
+        if (!s.startsWith("[") || !s.endsWith("]")) throw new IllegalArgumentException("Not a nested list: " + s);
+
+        var inner = extractTopLevelInnerArrays(s);
+        var out = new ArrayList<List<Integer>>(inner.size());
+        for (String row : inner) {
+            int[] arr = parseIntArray(row);
+            var list = new ArrayList<Integer>(arr.length);
+            for (int v : arr) list.add(v);
+            out.add(list);
+        }
+        return out;
+    }
+
+    /**
+     * Haalt top-level inner arrays uit een string als "[[1,2],[3,4]]" => ["[1,2]", "[3,4]"].
+     * Werkt ook voor "[]" => [].
+     */
+    private static List<String> extractTopLevelInnerArrays(String s) {
+        // s is outer [...] already
+        var out = new ArrayList<String>();
+        int i = 1; // skip first '['
+        while (i < s.length() - 1) {
+            while (i < s.length() - 1 && (s.charAt(i) == ' ' || s.charAt(i) == ',')) i++;
+            if (i >= s.length() - 1) break;
+
+            if (s.charAt(i) != '[') {
+                // Geen nested structure op dit punt; dan is het geen list-of-lists/matrix.
+                // (Bijv. "[1,2]" komt hier terecht.)
+                break;
             }
 
-            rows.add(parseIntArray(row));
+            int open = i;
+            int close = findMatchingBracket(s, open);
+            if (close < 0) throw new IllegalArgumentException("Unbalanced brackets: " + s);
+            out.add(s.substring(open, close + 1));
             i = close + 1;
         }
-        return rows.toArray(int[][]::new);
+        return out;
     }
 
     private static int findMatchingBracket(String s, int openIndex) {
@@ -448,7 +598,7 @@ class Solution {
         for (int i = openIndex; i < s.length(); i++) {
             char c = s.charAt(i);
             if (c == '[') depth++;
-            if (c == ']') {
+            else if (c == ']') {
                 depth--;
                 if (depth == 0) return i;
             }
@@ -486,7 +636,7 @@ class Solution {
     public static List<Integer> toList(ListNode head) {
         var out = new ArrayList<Integer>();
         var cur = head;
-        int guard = 0; // simpele cycle-guard (geen perfecte detectie, wel handig)
+        int guard = 0;
         while (cur != null) {
             out.add(cur.val);
             cur = cur.next;
@@ -513,15 +663,6 @@ class Solution {
         }
     }
 
-    /**
-     * Build a tree from level-order values (null means missing).
-     * Example: tree(1, 2, 3, null, 4)  =>
-     * 1
-     * / \
-     * 2   3
-     * \
-     * 4
-     */
     public static TreeNode tree(Integer... levelOrder) {
         if (levelOrder.length == 0 || levelOrder[0] == null) return null;
         var root = new TreeNode(levelOrder[0]);
@@ -548,9 +689,6 @@ class Solution {
         return root;
     }
 
-    /**
-     * Canonical level-order representation (trims trailing nulls).
-     */
     public static List<Integer> levelOrder(TreeNode root) {
         if (root == null) return List.of();
         var out = new ArrayList<Integer>();
@@ -566,7 +704,6 @@ class Solution {
                 q.add(n.right);
             }
         }
-        // trim trailing nulls
         int end = out.size();
         while (end > 0 && out.get(end - 1) == null) end--;
         return out.subList(0, end);
