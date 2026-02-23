@@ -21,16 +21,16 @@ class Solution {
     private static final boolean STOP_ON_FIRST_FAIL = false;
     private static final boolean SHOW_TIMING_PER_TEST = true;
     private static final boolean PRINT_FINAL_SUMMARY = true;
-    private static final boolean EXIT_NONZERO_ON_FAIL = false; // handig in CI / scripts
+    private static final boolean EXIT_NONZERO_ON_FAIL = false;
 
     public static void main(String[] args) {
         var s = new Solution();
 
         s.suite(() -> {
-
             /*
              * Argumenten aan s.test: s.test(label, args..., expected, methodRef);
              */
+            
 
             // ---------------------------------------------------------
             // 1) Primitive / String return
@@ -72,29 +72,13 @@ class Solution {
             //         m -> s.someMatrixMethod(m));
 
             // ---------------------------------------------------------
-            // 6) Combination Sum (order doesn't matter) ✅
+            // 6) Unordered Nested List return (order does not matter)
             // ---------------------------------------------------------
             // s.testUnorderedNestedIntLists(
             //         "combinationSum ex1",
             //         parseIntArray("[2,3,6,7]"),
             //         7,
             //         parseIntListList("[[2,2,3],[7]]"),
-            //         s::combinationSum
-            // );
-            //
-            // s.testUnorderedNestedIntLists(
-            //         "combinationSum ex2",
-            //         parseIntArray("[2,3,5]"),
-            //         8,
-            //         parseIntListList("[[2,2,2,2],[2,3,3],[3,5]]"),
-            //         s::combinationSum
-            // );
-            //
-            // s.testUnorderedNestedIntLists(
-            //         "combinationSum ex3",
-            //         parseIntArray("[2]"),
-            //         1,
-            //         parseIntListList("[]"),
             //         s::combinationSum
             // );
 
@@ -139,6 +123,9 @@ class Solution {
     // ✅ Your LeetCode solution methods go below (replace per problem)
     // ======================================================================
 
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        return null;
+    }
 
     // ======================================================================
     // 🧪 Test harness
