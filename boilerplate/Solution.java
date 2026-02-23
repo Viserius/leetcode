@@ -28,32 +28,32 @@ class Solution {
 
         s.suite(() -> {
             // --- Example tests (replace with your own) --------------------------
-            // CALL: change ONLY these lines per challenge (point to the LeetCode entry method)
-            s.test("n=1", 1, "1", s::countAndSay);
-            s.test("n=2", 2, "11", s::countAndSay);
-            s.test("n=3", 3, "21", s::countAndSay);
-            s.test("n=4", 4, "1211", s::countAndSay);
+            // Primitive types example:
+//            s.test("n=1", 1, "1", s::countAndSay);
+//            s.test("n=2", 2, "11", s::countAndSay);
+//            s.test("n=3", 3, "21", s::countAndSay);
+//            s.test("n=4", 4, "1211", s::countAndSay);
 
             // Array-returning example:
-            // s.test("twoSum", arr(2,7,11,15), 9, arr(0,1), (a, t) -> s.twoSum(a, t));
+//             s.test("twoSum", arr(2,7,11,15), 9, arr(0,1), (a, t) -> s.twoSum(a, t));
 
             // Supplier variant (fresh input each test; useful when input is mutated):
-            // s.test("rotate", () -> parseIntMatrix("[[1,2],[3,4]]"), parseIntMatrix("[[3,1],[4,2]]"), m -> { s.rotate(m); return m; });
+//             s.test("rotate", () -> parseIntMatrix("[[1,2],[3,4]]"), parseIntMatrix("[[3,1],[4,2]]"), m -> { s.rotate(m); return m; });
 
             // In-place void example:
-            // s.testInPlace("rotate in-place",
-            //         () -> parseIntMatrix("[[1,2],[3,4]]"),
-            //         parseIntMatrix("[[3,1],[4,2]]"),
-            //         m -> s.rotate(m));
+//             s.testInPlace("rotate in-place",
+//                     () -> parseIntMatrix("[[1,2],[3,4]]"),
+//                     parseIntMatrix("[[3,1],[4,2]]"),
+//                     m -> s.rotate(m));
 
             // Linked list example:
-            // s.test("reverseList",
-            //         listNode(1,2,3),
-            //         listNode(3,2,1),
-            //         s::reverseList);
+//             s.test("reverseList",
+//                     listNode(1,2,3),
+//                     listNode(3,2,1),
+//                     s::reverseList);
 
             // Exception example:
-            // s.testThrows("invalid input throws", IllegalArgumentException.class, () -> s.someMethod(-1));
+//             s.testThrows("invalid input throws", IllegalArgumentException.class, () -> s.someMethod(-1));
         });
     }
 
@@ -61,29 +61,6 @@ class Solution {
     // ✅ Your LeetCode solution methods go below (replace per problem)
     // ======================================================================
 
-    public String countAndSay(int n) {
-        if (n == 1) return "1";
-        return rle(countAndSay(n - 1));
-    }
-
-    private String rle(String str) {
-        var sb = new StringBuilder(str.length() * 2);
-        char current = str.charAt(0);
-        int count = 0;
-
-        for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i);
-            if (ch == current) {
-                count++;
-            } else {
-                sb.append(count).append(current);
-                current = ch;
-                count = 1;
-            }
-            if (i == str.length() - 1) sb.append(count).append(current);
-        }
-        return sb.toString();
-    }
 
     // ======================================================================
     // 🧪 Test harness
