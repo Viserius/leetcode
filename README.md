@@ -53,24 +53,33 @@ java -cp out Solution
 2. **Voorbeelden plakken** — kopieer de "Example"-blokken uit de opgave letterlijk in `examples(...)`.
 3. **Eigen edge cases** toevoegen met `test(...)`.
 4. **Runnen** tot alles ✅ is, dan de code tussen de markers op LeetCode indienen.
-5. **Archiveren**:
+5. **Archiveren en committen**:
+
+   ```powershell
+   ./scripts/archive.ps1
+   ```
+
+   Het script vraagt interactief:
+
+   | Vraag | Invoer |
+   |---|---|
+   | Opgave | De LeetCode-kop letterlijk, bijv. `46. Permutations` (alleen `46` mag ook, dan volgt de titel apart). |
+   | Runtime / Memory | Verkort `1ms 93` → `1ms beats 93%`, of vrije tekst; Enter om over te slaan. |
+   | Overschrijven? | Alleen als er al een bestand voor dat nummer bestaat. |
+   | Doorgaan? | Na een overzicht van bestandsnaam, link en stats. |
+   | Nu committen? + bericht | Commit alleen het nieuwe bestand, de README en de gereste boilerplate. Standaardbericht: `Voegt oplossing voor <titel> toe`. |
+
+   Het script schrijft `00046. Permutations.java`, reset `boilerplate/Solution.java` naar de template
+   en werkt de index onderaan deze README bij.
+
+   Niet-interactief (geen vragen, geen commit):
 
    ```powershell
    ./scripts/archive.ps1 -Number 46 -Title "Permutations" -Runtime "1ms beats 93%" -Memory "44MB beats 70%"
    ```
 
-   Dit schrijft `00046. Permutations.java`, reset `boilerplate/Solution.java` naar de template en
-   werkt de index onderaan deze README bij. (`-NoReset` om de boilerplate te laten staan, `-Force`
-   om een bestaand bestand te overschrijven, `-IndexOnly` om alleen de index te regenereren.)
-6. **Committen** — één commit per opgave, berichtstijl zoals de bestaande historie:
-
-   ```bash
-   git add -A
-   ```
-
-   ```bash
-   git commit -m "Voegt oplossing voor Permutations toe"
-   ```
+   Extra opties: `-NoReset` laat de boilerplate staan, `-Force` overschrijft zonder te vragen en
+   `-IndexOnly` regenereert alleen de index.
 
 ## Harness cheat-sheet
 
