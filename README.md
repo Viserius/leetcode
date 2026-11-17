@@ -199,7 +199,7 @@ Overschrijf ze bovenaan `main()`, bijv. `timeoutMs = 10_000;`.
 ## Opgeloste opgaven
 
 <!-- INDEX:START -->
-46 opgaven opgelost.
+47 opgaven opgelost.
 
 | # | Opgave | Oplossing |
 |--:|--------|-----------|
@@ -249,4 +249,5 @@ Overschrijf ze bovenaan `main()`, bijv. `timeoutMs = 10_000;`.
 | 44 | [Wildcard Matching](https://leetcode.com/problems/wildcard-matching/) | [Java](00044.%20Wildcard%20Matching.java) |
 | 45 | [Jump Game II](https://leetcode.com/problems/jump-game-ii/) | [Java](00045.%20Jump%20Game%20II.java) |
 | 46 | [Permutations](https://leetcode.com/problems/permutations/) | [Java](00046.%20Permutations.java) |
+| 47 | [Permutations II](https://leetcode.com/problems/permutations-ii/) | [Java](00047.%20Permutations%20II.java) |
 <!-- INDEX:END -->
