@@ -9,7 +9,7 @@ import java.util.stream.*;
  *   <li>Plak de LeetCode-code (signatuur) tussen de region-markers.</li>
  *   <li>Plak de voorbeelden uit de opgave in {@code examples(...)}; voeg eigen edge cases toe met {@code test(...)}.</li>
  *   <li>Run deze klasse. Alleen de code tussen de markers gaat naar LeetCode.</li>
- *   <li>Archiveer: {@code ./scripts/archive.ps1 -Number <nr> -Title "<titel>"}</li>
+ *   <li>Archiveer en commit: {@code ./scripts/archive.ps1} (vraagt alles interactief).</li>
  * </ol>
  */
 class Solution extends Harness {
